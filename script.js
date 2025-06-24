@@ -1,26 +1,33 @@
+// ✅ Array of quote objects
 const quotes = [
   { text: "Stay hungry, stay foolish.", category: "Motivation" },
   { text: "Life is what happens when you're busy making other plans.", category: "Life" },
   { text: "Simplicity is the ultimate sophistication.", category: "Design" }
 ];
 
+// ✅ EXACT function name: showRandomQuote
 function showRandomQuote() {
-  const randomIndex = Math.floor(Math.random() * quotes.length);
-  const randomQuote = quotes[randomIndex];
   const quoteDisplay = document.getElementById("quoteDisplay");
-  quoteDisplay.innerHTML = `"${randomQuote.text}" — [${randomQuote.category}]`;
+  const randomIndex = Math.floor(Math.random() * quotes.length);
+  const quote = quotes[randomIndex];
+  quoteDisplay.innerHTML = `"${quote.text}" — [${quote.category}]`;
 }
 
+// ✅ EXACT listener on the “Show New Quote” button
 document.getElementById("newQuote").addEventListener("click", showRandomQuote);
 
+// ✅ Function name: addQuote
 function addQuote() {
-  const newText = document.getElementById("newQuoteText").value.trim();
-  const newCategory = document.getElementById("newQuoteCategory").value.trim();
+  const textInput = document.getElementById("newQuoteText");
+  const categoryInput = document.getElementById("newQuoteCategory");
 
-  if (newText && newCategory) {
-    quotes.push({ text: newText, category: newCategory });
-    document.getElementById("newQuoteText").value = "";
-    document.getElementById("newQuoteCategory").value = "";
-    showRandomQuote();
+  const text = textInput.value.trim();
+  const category = categoryInput.value.trim();
+
+  if (text && category) {
+    quotes.push({ text, category });
+    textInput.value = "";
+    categoryInput.value = "";
+    showRandomQuote(); // Show the new quote after adding
   }
 }
