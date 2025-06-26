@@ -136,3 +136,25 @@ async function syncWithServer() {
     setTimeout(() => syncMessage.textContent = "", 3000);
   }
 }
+function createAddQuoteForm() {
+  const container = document.createElement("div");
+
+  const inputText = document.createElement("input");
+  inputText.id = "newQuoteText";
+  inputText.placeholder = "Enter a new quote";
+
+  const inputCategory = document.createElement("input");
+  inputCategory.id = "newQuoteCategory";
+  inputCategory.placeholder = "Enter quote category";
+
+  const addButton = document.createElement("button");
+  addButton.textContent = "Add Quote";
+  addButton.onclick = addQuote;
+
+  container.appendChild(inputText);
+  container.appendChild(inputCategory);
+  container.appendChild(addButton);
+
+  document.body.appendChild(container);
+}
+createAddQuoteForm();
