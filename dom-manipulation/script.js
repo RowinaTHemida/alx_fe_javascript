@@ -168,7 +168,8 @@ async function syncQuotes() {
     });
     const data = await response.json();
     console.log("✅ Synced quotes to server:", data);
-    showSyncNotification("✅ Quotes synced to server successfully.");
+    showSyncNotification("Quotes synced with server!");
+
   } catch (error) {
     console.error("❌ Sync failed:", error);
     showSyncNotification("❌ Failed to sync to server.");
