@@ -134,3 +134,69 @@ document.getElementById('newQuote').addEventListener('click', showRandomQuote);
 document.getElementById('addQuoteBtn').addEventListener('click', addQuote);
 
 function createAddQuoteForm() {}
+
+
+// === Sync with Server Simulation ===
+
+// Fake server URL using JSONPlaceholder (simulate only)
+const SERVER_URL = "https://jsonplaceholder.typicode.com/posts";
+
+// Simulate sending local quotes to the server
+function syncQuotesToServer() {
+  fetch(SERVER_URL, {
+    method: "POST",
+    body: JSON.stringify(quotes),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+    .then(response => response.json())
+    .then(data => {
+      console.log("✅ Quotes synced to server:", data);
+      showSyncNotification("Quotes synced to server successfully.");
+    })
+    .catch(error => {
+      console.error("❌ Sync failed:", error);
+      showSyncNotification("Failed to sync quotes to server.");
+    });
+}
+
+// Simulate fetching quotes from the server
+function fetchQuotesFromServer() {
+  fetch(SERVER_URL)
+    .then(response => response.json())
+    .then(serverQuotes => {
+      // Simulate getting new quotes
+      const fakeQuotes = [
+        { text: "Server quote 1", category: "Server" },
+        { text: "Server quote 2", category: "Server" }
+      ];
+
+      // Conflict Resolution: Server wins (replace local)
+      quotes = fakeQuotes;
+      saveQuotes();
+      populateCategories();
+      filterQuotes();
+      showSyncNotification("Quotes updated from server (Server version used).");
+    })
+    .catch(error => {
+      console.error("❌ Fetch from server failed:", error);
+    });
+}
+
+// Show notification to user
+function showSyncNotification(message) {
+  const notification = document.createElement('div');
+  notification.textContent = message;
+  notification.style.background = '#222';
+  notification.style.color = '#fff';
+  notification.style.padding = '10px';
+  notification.style.marginTop = '10px';
+  notification.style.borderRadius = '5px';
+  document.body.prepend(notification);
+  setTimeout(() => notification.remove(), 4000);
+}
+
+// Periodic sync every 30 seconds
+setInterval(fetchQuotesFromServer, 30000);
+setInterval(syncQuotesToServer, 60000);
