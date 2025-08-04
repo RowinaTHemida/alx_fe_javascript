@@ -13,7 +13,6 @@ function showRandomQuote() {
   display.innerHTML = `"${quote.text}" - <em>(${quote.category})</em>`;
 }
 
-// Function to add a new quote
 function addQuote() {
   const textInput = document.getElementById('newQuoteText');
   const categoryInput = document.getElementById('newQuoteCategory');
@@ -25,9 +24,15 @@ function addQuote() {
 
   if (newQuote.text && newQuote.category) {
     quotes.push(newQuote);
+
+    // Create a new paragraph and display the quote
+    const display = document.getElementById('quoteDisplay');
+    const newParagraph = document.createElement('p');
+    newParagraph.innerHTML = `"${newQuote.text}" - <em>(${newQuote.category})</em>`;
+    display.appendChild(newParagraph);
+
     textInput.value = "";
     categoryInput.value = "";
-    alert("Quote added successfully!");
   } else {
     alert("Please fill in both fields.");
   }
