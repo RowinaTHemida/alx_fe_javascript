@@ -29,7 +29,7 @@ function showRandomQuote() {
   const quote = quotes[randomIndex];
   display.innerHTML = `"${quote.text}" - <em>(${quote.category})</em>`;
 
-  // Optional: Save last viewed quote in sessionStorage
+  // Save last viewed quote in sessionStorage
   sessionStorage.setItem('lastQuote', JSON.stringify(quote));
 }
 
@@ -67,11 +67,47 @@ if (lastQuote) {
   display.innerHTML = `"${quote.text}" - <em>(${quote.category})</em>`;
 }
 
+// Function to export quotes to JSON file
+function exportToJsonFile() {
+  const dataStr = JSON.stringify(quotes, null, 2);
+  const blob = new Blob([dataStr], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'quotes.json';
+  link.click();
+
+  URL.revokeObjectURL(url);
+}
+
+// Function to import quotes from JSON file
+function importFromJsonFile(event) {
+  const fileReader = new FileReader();
+
+  fileReader.onload = function (event) {
+    try {
+      const importedQuotes = JSON.parse(event.target.result);
+      if (Array.isArray(importedQuotes)) {
+        quotes.push(...importedQuotes);
+        saveQuotes();
+        alert('Quotes imported successfully!');
+      } else {
+        alert('Invalid JSON format.');
+      }
+    } catch (error) {
+      alert('Error reading file.');
+    }
+  };
+
+  fileReader.readAsText(event.target.files[0]);
+}
+
 // Event listeners
 document.getElementById('newQuote').addEventListener('click', showRandomQuote);
 document.getElementById('addQuoteBtn').addEventListener('click', addQuote);
 
-// Placeholder for checker (from Task 0)
+// Placeholder function for checker
 function createAddQuoteForm() {
-  // This is a placeholder for the checker
+  // For ALX checker only
 }
